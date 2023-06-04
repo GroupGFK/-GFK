@@ -10,7 +10,8 @@ void reset();
 
 int main() {
 
-	int a=0,b=0,direction,steps;	char choice;
+	int a=0,b=0,direction,steps;	
+	char choice;
 
 	
 
