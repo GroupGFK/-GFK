@@ -1,0 +1,354 @@
+//MiniSystem
+#include<stdio.h>
+
+#include<stdlib.h>
+
+#include<conio.h>
+
+#include<string.h>
+
+#include<Windows.h>
+
+struct Passenger_Itinerary
+
+{
+
+	char passport[100];	char name[1000];
+
+    char email[1000];
+
+    char destination[1000];
+
+    char departure[1000];
+
+	int seat_num;
+
+	struct Passenger_Itinerary *following;
+
+}
+
+*begin, *stream;
+
+struct Passenger_Itinerary *dummy;
+
+int main()
+
+{
+
+	void reserve(int x), cancel(), view(), savefile();  
+
+	int option;
+
+	begin = stream = NULL;  
+
+	int num = 1;
+
+	do
+
+	{
+
+		
+
+		printf("\n\n\t\t ********************************************************************");
+
+		printf("\n\t\t                   WELCOME TO *GKS AIRLINE SYSTEM                   ");
+
+		printf("\n\t\t  ********************************************************************");
+
+		printf("\n\n\n\t\t                             MENU OPTION:\n\n");
+
+		printf("\n\n\t\t                   1  Make Reservation");
+
+		printf("\n\n\t\t                   2  Cancel Reservation");
+
+		printf("\n\n\t\t                   3  View Records");
+
+		printf("\n\n\t\t                   4  Exit");
+
+		printf("\n\n\n\n\t\t Enter your option :");
+
+		scanf("%d", &option); fflush(stdin);
+
+		system("cls");
+
+		switch (option)
+
+		{
+
+		case 1:
+
+			reserve(num);
+
+			num++;
+
+			break;
+
+		case 2:
+
+			cancel();
+
+			break;
+
+		case 3:
+
+			view();
+
+			break;
+
+		case 4:
+
+		{
+
+				  savefile();
+
+				  break;
+
+		}
+
+		default:
+
+			printf("\n\n\t SORRY INVALID OPTION!");
+
+			printf("\n\n\t PLEASE SELECT FROM 1-4");
+
+			printf("\n\n\t DO NOT FORGET TO SELECT FROM THE OPTIONS");
+
+		}
+
+		getch();
+
+	} while (option != 4);
+
+}
+
+void details()
+
+{
+
+	printf("\n\t Enter your passport number: ");
+
+	gets(stream->passport); fflush(stdin);   
+
+	printf("\n\t Enter your  name: ");
+
+	gets(stream->name); fflush(stdin);
+
+	printf("\n\t Enter your email address: ");
+
+	gets(stream->email); fflush(stdin);
+
+        printf("\n\t Enter the Destination : ");
+
+        gets(stream->destination); fflush(stdin);
+
+        printf("\n\t Enter the Departure : ");
+
+        gets(stream->departure); fflush(stdin);
+
+}
+
+void details();
+
+void reserve(int x)
+
+{
+
+	stream = begin;
+
+	if (begin == NULL)
+
+	{
+
+		begin = stream = (struct Passenger_Itinerary*)malloc(sizeof(struct Passenger_Itinerary));
+
+		details();
+
+		stream->following = NULL;
+
+		printf("\n\t SEAT BOOKING SUCCESSFUL!");
+
+		printf("\n\t Your seat number is: Seat A-%d", x);
+
+		stream->seat_num = x;
+
+		return;
+
+	}
+
+	else if (x > 15) 
+
+	{
+
+		printf("\n\t\t SEAT FULL.");
+
+		return;
+
+	}
+
+	else
+
+	{
+
+		while (stream->following)
+
+		stream = stream->following;
+
+		stream->following = (struct Passenger_Itinerary*)malloc(sizeof(struct Passenger_Itinerary));
+
+		stream = stream->following;
+
+		details();
+
+		stream->following = NULL;
+
+		printf("\n\t SEAT BOOKING SUCCESSFUL!");
+
+		printf("\n\t Your seat number is: Seat A-%d", x);
+
+		stream->seat_num = x;
+
+		return;
+
+	}
+
+} 
+
+void savefile()
+
+{
+
+	FILE *fpointer = fopen("passenger records.csv", "w");
+
+	if (!fpointer)
+
+	{
+
+		printf("\n ERROR IN OPENING FILE!");
+
+		return;
+
+		Sleep(800);
+
+	}
+
+	stream = begin;
+
+	while (stream)
+
+	{
+
+		fprintf(fpointer, "%-6s", stream->passport);
+
+		fprintf(fpointer, "%-15s", stream->name);
+
+		fprintf(fpointer, "%-15s", stream->email);
+
+                fprintf(fpointer, "%-15s", stream->destination);
+
+                fprintf(fpointer, "%-15s", stream->departure);
+
+                fprintf(fpointer, "\n");
+
+		stream = stream->following;
+
+	}
+
+	printf("\n\n\t DETAILS HAVE BEEN SAVED TO A FILE (passenger records)");
+
+	fclose(fpointer);
+
+}
+
+void view()
+
+{
+
+	stream = begin;
+
+	while (stream)
+
+	{
+
+		printf("\n\n Passport Number : %-6s", stream->passport);
+
+		printf("\n   Name : %-15s", stream->name);
+
+		printf("\n   Email address: %-15s", stream->email);
+
+		printf("\n   Seat number: A-%d", stream->seat_num);
+
+        printf("\n   Destination:%-15s", stream->destination);
+
+        printf("\n   Departure:%-15s", stream->departure);
+
+		printf("\n\n++*=====================================================*++");
+
+		stream = stream->following;
+
+	}
+
+}
+
+void cancel()
+
+{
+
+	stream = begin;
+
+	system("cls");
+
+	char passport[6];
+
+	printf("\n\n Enter passort number to delete record?:");
+
+	gets(passport); fflush(stdin);
+
+	if (strcmp(begin->passport, passport) == 0)
+
+	{
+
+		dummy = begin;
+
+		begin = begin->following;
+
+		free(dummy);
+
+		printf(" BOOKING HAS BEEN DELETED");
+
+		Sleep(800);
+
+		return;
+
+	}
+
+	while (stream->following)
+
+	{
+
+		if (strcmp(stream->following->passport, passport) == 0)
+
+		{
+
+			dummy = stream->following;
+
+			stream->following = stream->following->following;
+
+			free(dummy);
+
+			printf("HAS BEEN DELETED");
+
+			getch();
+
+			Sleep(800);
+
+			return;
+
+		}
+
+		stream = stream->following;
+
+	}
+
+	printf("PASSPORT NUMBER IS WRONG PLEASE CHECK YOUR PASSPORT");
+
+}
