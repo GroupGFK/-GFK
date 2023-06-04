@@ -1,0 +1,137 @@
+#include<stdio.h>
+
+#include<conio.h>
+
+#include <stdlib.h>
+
+#include<windows.h>
+
+void reset();
+
+int main() {
+
+	int a=0,b=0,direction,steps;	char choice;
+
+	
+
+{
+
+    
+
+    while(1)
+
+    {
+
+    	reset();
+
+    	printf("Command Robby\n\n");
+
+        printf("[A] Main\n");
+
+        printf("[B] Location\n");
+
+        printf("[C] Step\n");
+
+        printf("[D] Exit\n\n\n");
+
+        printf("Enter a valid choice :  ");
+
+        scanf("%s",&choice);
+
+        
+
+        switch(choice) {
+
+			case 'A': a=0; b=0; 
+
+			printf("\n\nRobby goes to its Main Location (%d,%d)\n",a,b);
+
+				break;
+
+			case 'B': 
+
+			printf("\n\n\tRobby is at location (%d,%d)\n",a,b);
+
+				break;
+
+			case 'C': 
+
+			printf("\n [0]North [1]South [2]East [3]West\n");   
+
+			    printf("\tEnter direction: "); 
+
+				scanf("%d",&direction);
+
+				if(direction==0) {
+
+					printf("\n\tHow many steps? : ");
+
+					scanf("%d",&steps);
+
+					a+=steps;
+
+				
+
+				} else if(direction==1) {
+
+					printf("\n\tHow many steps? : ");
+
+					scanf("%d",&steps);
+
+					a-=steps;
+
+				
+
+				} else if(direction==2) {
+
+					printf("\n\tHow many steps? : ");
+
+					scanf("%d",&steps);
+
+					b+=steps;
+
+				
+
+                } else if(direction==3) {
+
+					printf("\n\tHow many steps? : ");
+
+					scanf("%d",&steps);
+
+					b-=steps;
+
+				
+
+                } else printf("\n\n\tRobby is confused\n");
+
+				break;
+
+			case 'D': printf("\n\n\tRobby Exits!\n\n\n");
+
+                exit(0);
+
+				break;
+
+			default: printf("\n\n\tInvalid Choice, Choose again \n");
+
+                break;
+
+		} 
+
+        getch();
+
+    } while(choice!='d');
+
+    
+
+	return 0;
+
+}
+
+}
+
+	void reset(){
+
+		system("cls");
+
+	}
